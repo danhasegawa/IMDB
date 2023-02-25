@@ -1,15 +1,16 @@
-package br.com.sevendaysofcode
+package br.com.sevendaysofcode.ui.screen
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,34 +20,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
 import br.com.sevendaysofcode.extensions.loadImageBitmap
 import br.com.sevendaysofcode.model.Movie
-import br.com.sevendaysofcode.webclient.MovieWebClient
 
 
 @Composable
-@Preview
-fun app(movies: List<Movie>) {
-
-    MaterialTheme(
-        colors = darkColors()
-    ) {
-        Surface {
-            Box(modifier = Modifier.fillMaxSize()) {
-                LazyColumn {
-                    items(movies) { movie ->
-                        movieItem(
-                            movie
-                        )
-                    }
-                }
-            }
+fun moviesListScreen(movies: List<Movie>) {
+    LazyVerticalGrid(GridCells.Adaptive(150.dp)) {
+        items(movies) { movie ->
+            movieItem(
+                movie
+            )
         }
     }
 }
-
 
 @Composable
 private fun movieItem(movie: Movie) {
@@ -57,7 +44,7 @@ private fun movieItem(movie: Movie) {
     ) {
         Image(
             bitmap = movie.image.loadImageBitmap(),
-            contentDescription = "Movie Poster",
+            contentDescription = "movie poster",
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(4.dp)),
@@ -76,7 +63,7 @@ private fun movieItem(movie: Movie) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     Icons.Default.Star,
-                    "star icon for rating",
+                    "icon star for rating",
                     tint = Color.Yellow,
                     modifier = Modifier.height(16.dp)
                 )
@@ -106,21 +93,5 @@ private fun movieItem(movie: Movie) {
             textAlign = TextAlign.Center
         )
     }
-
 }
 
-fun main() = application {
-    val client = MovieWebClient()
-    var movies: List<Movie> by remember {
-        mutableStateOf(emptyList())
-    }
-    client.findTop250Movies {
-        movies = it
-    }
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "IMDB"
-    ) {
-        app(movies)
-    }
-}
