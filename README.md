@@ -4,6 +4,7 @@
 ![Badge completed](https://img.shields.io/static/v1?label=Status&message=Completed&color=GREEN&style=for-the-badge)
 
 In this project, the goal at the end of the seven days will be to develop a desktop application with a graphical interface that shows the Top 250 movies from the IMDB Web API.
+
 A different task will be performed each day.
 
 ## ✔️ Technologies
